@@ -1,0 +1,35 @@
+/*
+** main_server.c for JEFFTP in /home/ganesha/projets/PSU_2014_myftp/src/client
+**
+** Made by Ambroise Coutarel
+** Login   <ganesha@epitech.net>
+**
+** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
+** Last update Mon Mar  9 12:55:51 2015 Ambroise Coutarel
+*/
+
+#include "../../include/jefftp.h"
+
+int			main(int argc, char **argv)
+{
+  struct protoent	*prot;
+  struct sockaddr_in	sock_in;
+  int			server_fd;
+
+  if (argc < 2)
+    {
+      printf("Usage : ./server <port>\n");
+      return (0);
+    }
+  sock_in.sin_family = AF_INET;
+  sock_in.sin_port = htons(atoi(argv[1]));
+  sock_in.sin_addr.s_addr = INADDR_ANY;
+  if ((pe = getprotobyname("TCP")) == -1)
+    return (-1);
+  if ((server_fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
+    return (-1);
+  if ((bind(server_fd, (CAST)&sock_in, sizeof(sock_in))) == -1)
+    return (close_and_fail(server_fd));
+  //close(server_fd);
+  return (0);
+}

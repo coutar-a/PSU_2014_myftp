@@ -1,0 +1,11 @@
+/*
+** errors.c for JEFFTP in /home/ganesha/projets/PSU_2014_myftp/src/client
+**
+** Made by Ambroise Coutarel
+** Login   <ganesha@epitech.net>
+**
+** Started on  Mon Mar  9 12:49:40 2015 Ambroise Coutarel
+** Last update Mon Mar  9 12:49:48 2015 Ambroise Coutarel
+*/
+
+#include "../jefftp.h"
