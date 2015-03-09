@@ -1,0 +1,22 @@
+-user <SPACE> <login> <CRLF>
+      |-> pass <SPACE> <passwd> <CRLF>
+
+-cwd <SPACE> <pathname> <CRLF> : change working directory
+
+-cdup <CRLF>: change to parent directory
+
+-quit <CRLF>: self explanatory
+
+-retr <SPACE> <filename> <CRLF>: retrieve a copy of the file
+
+-stor <SPACE> <local file> <CRLF>: store file on server : overwrites and creates file on serveur
+
+-dele <SPACE> <file> <CRLF>: deletes file
+
+-PWD <CRLF>: printf working directory
+
+-list <SPACE> <pathname> <CRLF>: list files in directory
+
+-help <SPACE> <command> <CRLF>: prints help for that command
+
+-noop <CRLF> : no operation : does nothing (???)

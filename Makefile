@@ -5,11 +5,12 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Mon Mar  9 12:59:36 2015 Ambroise Coutarel
+## Last update Mon Mar  9 15:11:07 2015 Ambroise Coutarel
 ##
 
 SRC_SERVER	=	./src/server/main_server.c	\
-			./src/server/errors.c		
+			./src/server/errors.c		\
+			./src/server/display.c
 
 SRC_CLIENT	=	./src/client/main_client.c
 

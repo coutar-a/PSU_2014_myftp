@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Mon Mar  9 13:55:33 2015 Ambroise Coutarel
+** Last update Mon Mar  9 15:11:42 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -23,15 +23,19 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 
-# define CAST_C	const struct sockaddr *
-# define CAST_NC struct sockaddr *
-# define QUEUE	5
+# define CAST_C		const struct sockaddr *
+# define CAST_NC	struct sockaddr *
+# define QUEUE		5
+# define GREETING	"Welcome to JefFTP ! Your IP address is : "
+# define LOGIN		"Please enter your login : "
+# define PASSWD		"Please enter your password : "
 
 /*
 ** function prototypes for serveur
 */
 
 int	close_and_fail(int fd);
+void	writeToFd(int fd, char *str, char newline);
 
 /*
 ** function prototypes for client

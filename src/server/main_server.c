@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Mon Mar  9 13:58:35 2015 Ambroise Coutarel
+** Last update Mon Mar  9 15:14:55 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -18,6 +18,8 @@ int			client_transaction(int s_fd, int c_fd,
 
   client_ip = inet_ntoa(c_sock->sin_addr);
   printf("IP client : %s\n", client_ip);
+  writeToFd(c_fd, GREETING, 0);
+  writeToFd(c_fd, client_ip, 1);
   (void)s_fd;
   (void)c_fd;
   (void)s_sock;
@@ -31,17 +33,19 @@ int			client_handler(int server_fd,
   int			client_fd;
   int			pid;
   socklen_t		c_in_size;
+  int			nb_clients;
 
+  nb_clients = 0;
   c_in_size = sizeof(c_sock);
   if ((client_fd = accept(server_fd, (CAST_NC)&c_sock, &c_in_size)) != -1)
     {
       if ((pid = fork()) == -1)
 	return (close_and_fail(client_fd));
-      if (pid == 0)
+      else if (pid == 0 && nb_clients != QUEUE)
 	{
 	  client_transaction(server_fd, client_fd, &c_sock, s_sock);
+	  ++nb_clients;
 	}
-      // do the actual server things
       else
 	return (0);
     }
