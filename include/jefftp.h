@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Mon Mar  9 15:11:42 2015 Ambroise Coutarel
+** Last update Mon Mar  9 16:27:33 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -29,6 +29,9 @@
 # define GREETING	"Welcome to JefFTP ! Your IP address is : "
 # define LOGIN		"Please enter your login : "
 # define PASSWD		"Please enter your password : "
+
+typedef const struct sockaddr* constsock;
+typedef struct sockaddr* sock;
 
 /*
 ** function prototypes for serveur

@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Mon Mar  9 15:14:55 2015 Ambroise Coutarel
+** Last update Mon Mar  9 16:30:03 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -37,7 +37,7 @@ int			client_handler(int server_fd,
 
   nb_clients = 0;
   c_in_size = sizeof(c_sock);
-  if ((client_fd = accept(server_fd, (CAST_NC)&c_sock, &c_in_size)) != -1)
+  if ((client_fd = accept(server_fd, (sock)&c_sock, &c_in_size)) != -1)
     {
       if ((pid = fork()) == -1)
 	return (close_and_fail(client_fd));
@@ -72,7 +72,7 @@ int			main(int argc, char **argv)
     return (-1);
   if ((server_fd = socket(AF_INET, SOCK_STREAM, prot->p_proto)) == -1)
     return (-1);
-  if ((bind(server_fd, (CAST_C)&sock_in, sizeof(sock_in))) == -1)
+  if ((bind(server_fd, (constsock)&sock_in, sizeof(sock_in))) == -1)
     return (close_and_fail(server_fd));
   if ((listen(server_fd, QUEUE)) == -1)
     return (close_and_fail(server_fd));
