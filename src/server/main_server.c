@@ -5,33 +5,32 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Tue Mar 10 12:55:12 2015 Ambroise Coutarel
+** Last update Tue Mar 10 16:26:18 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
-int			client_transaction(int s_fd, int c_fd, 
-					   struct sockaddr_in *c_sock, 
-					   struct sockaddr_in *s_sock) 
+int			client_transaction(int s_fd, struct sockaddr_in *s_sock, 
+					   t_client *client) 
 {
-  char			*client_ip;
   char			*client_request;
 
-  client_ip = inet_ntoa(c_sock->sin_addr);
-  printf("IP client : %s\n", client_ip);
-  //loginDisplay(c_fd, client_ip);
+  printf("IP client : %s\n", client->ip);
   while ("Jeff")
     {
-      if ((client_request = readFromSocket(c_fd)) != NULL)
+      if ((client_request = readFromSocket(client->fd)) != NULL)
 	{
 	  printf("client request : %s\n", client_request);
+	  if ((strcmp(client_request, "quit")) == 0)
+	    {
+	      close(client->fd);
+	      return(0);
+	    }
 	  free(client_request);
-	  usleep(300000);
-	  writeToFd(c_fd, "message recieved, now go fuck yourself >:(", 1);
+	  writeToFd(client->fd, "you requested a thing", 0);
 	}
     }
   (void)s_fd;
-  (void)c_fd;
   (void)s_sock;
   return (0);
 }
@@ -39,29 +38,38 @@ int			client_transaction(int s_fd, int c_fd,
 int			client_handler(int server_fd, 
 				       struct sockaddr_in *s_sock)
 {
-  struct sockaddr_in	c_sock;
-  int			client_fd;
+  t_client		client;
+  /* struct sockaddr_in	c_sock; */
+  /* int			client_fd; */
   int			pid;
   socklen_t		c_in_size;
-  int			nb_clients;
 
-  nb_clients = 0;
-  c_in_size = sizeof(c_sock);
-  if ((client_fd = accept(server_fd, (sock)&c_sock, &c_in_size)) != -1)
+
+  c_in_size = sizeof(client.sock);
+  if ((client.fd = accept(server_fd, (sock)&(client.sock), &c_in_size)) != -1)
     {
-      loginDisplay(client_fd, inet_ntoa(c_sock.sin_addr));
+      client.ip = inet_ntoa(client.sock.sin_addr);
+      loginDisplay(client.fd, client.ip);
       if ((pid = fork()) == -1)
-	return (close_and_fail(client_fd));
-      else if (pid == 0 && nb_clients != QUEUE)
-	{
-	  client_transaction(server_fd, client_fd, &c_sock, s_sock);
-	  ++nb_clients;
-	}
+	return (close_and_fail(client.fd));
+      else if (pid == 0)
+	client_transaction(server_fd, s_sock, &client);
       else
 	return (0);
     }
+  /* c_in_size = sizeof(c_sock); */
+  /* if ((client_fd = accept(server_fd, (sock)&c_sock, &c_in_size)) != -1) */
+  /*   { */
+  /*     loginDisplay(client_fd, inet_ntoa(c_sock.sin_addr)); */
+  /*     if ((pid = fork()) == -1) */
+  /* 	return (close_and_fail(client_fd)); */
+  /*     else if (pid == 0) */
+  /* 	client_transaction(server_fd, client_fd, &c_sock, s_sock); */
+  /*     else */
+  /* 	return (0); */
+  /*   } */
   else
-    close_and_fail(client_fd);
+    close_and_fail(client.fd);
   return (0);
 }
 

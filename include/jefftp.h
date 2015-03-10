@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Tue Mar 10 12:45:38 2015 Ambroise Coutarel
+** Last update Tue Mar 10 15:53:03 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -24,6 +24,7 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <stdarg.h>
+# include <ctype.h>
 
 # define CAST_C		const struct sockaddr *
 # define CAST_NC	struct sockaddr *
@@ -37,6 +38,15 @@
 
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
+
+typedef struct		s_client
+{
+  char			*ip;
+  char			*name;
+  struct sockaddr_in	sock;
+  char			isLogged;
+  int			fd;
+}			t_client;
 
 /*
 ** function prototypes for serveur
@@ -55,5 +65,6 @@ void	writeToFd(int fd, char *str, char newline);
 char*	readFromSocket(int socket);
 int	readFromStdin(char buffer[256]);
 void	loginDisplay(int c_fd, char *client_ip);
+void	strlower(char *str, char stop);
 
 #endif /* !JEFFTP_H_ */
