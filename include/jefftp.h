@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Mon Mar  9 16:27:33 2015 Ambroise Coutarel
+** Last update Tue Mar 10 12:45:38 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -14,6 +14,7 @@
 
 # include <sys/types.h>
 # include <sys/socket.h>
+# include <sys/ioctl.h>
 # include <netdb.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -22,6 +23,7 @@
 # include <unistd.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <stdarg.h>
 
 # define CAST_C		const struct sockaddr *
 # define CAST_NC	struct sockaddr *
@@ -29,6 +31,9 @@
 # define GREETING	"Welcome to JefFTP ! Your IP address is : "
 # define LOGIN		"Please enter your login : "
 # define PASSWD		"Please enter your password : "
+# define INFO1		"Please enter a command, or type help for a "
+# define INFO2		"list of commands"
+# define PROMPT		"JefFTP $>"
 
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
@@ -37,11 +42,18 @@ typedef struct sockaddr* sock;
 ** function prototypes for serveur
 */
 
-int	close_and_fail(int fd);
-void	writeToFd(int fd, char *str, char newline);
-
 /*
 ** function prototypes for client
 */
+
+/*
+** common function prototypes
+*/
+
+int	close_and_fail(int fd);
+void	writeToFd(int fd, char *str, char newline);
+char*	readFromSocket(int socket);
+int	readFromStdin(char buffer[256]);
+void	loginDisplay(int c_fd, char *client_ip);
 
 #endif /* !JEFFTP_H_ */

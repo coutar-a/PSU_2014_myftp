@@ -5,24 +5,28 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:19:05 2015 Ambroise Coutarel
-** Last update Mon Mar  9 16:40:25 2015 Ambroise Coutarel
+** Last update Tue Mar 10 12:49:27 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
-
-int	readFromSocket(int fd)
+int	command_line(int socket)
 {
-  char	buff[32];
+  char			*server_msg;
+  char			user_request[256];
 
-  while (read(fd, buff, 31) != -1)
+  server_msg = readFromSocket(socket);
+  writeToFd(0, server_msg, 1);
+  free(server_msg);
+  while("jeff")
     {
-      buff[31] = 0;
-      printf("%s", buff);
+      writeToFd(0, PROMPT, 0);
+      readFromStdin(user_request);
+      writeToFd(socket, user_request, 0);
+      //free(user_request);
     }
   return (0);
 }
-
 
 int	main(int argc, char **argv)
 {
@@ -45,8 +49,7 @@ int	main(int argc, char **argv)
   if ((connect(s_fd, (sock)&sock_in, sizeof(sock_in))) == -1)
     close_and_fail(s_fd);
   sleep(2);
-  writeToFd(s_fd, "FOR FUCK SAKE", 1);
-  //while("jeff")
-    readFromSocket(s_fd);
+  //writeToFd(s_fd, "FOR FUCK SAKE", 1);
+  command_line(s_fd);
   return (0);
 }

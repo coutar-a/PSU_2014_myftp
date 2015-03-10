@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Mon Mar  9 16:30:03 2015 Ambroise Coutarel
+** Last update Tue Mar 10 12:55:12 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -15,11 +15,21 @@ int			client_transaction(int s_fd, int c_fd,
 					   struct sockaddr_in *s_sock) 
 {
   char			*client_ip;
+  char			*client_request;
 
   client_ip = inet_ntoa(c_sock->sin_addr);
   printf("IP client : %s\n", client_ip);
-  writeToFd(c_fd, GREETING, 0);
-  writeToFd(c_fd, client_ip, 1);
+  //loginDisplay(c_fd, client_ip);
+  while ("Jeff")
+    {
+      if ((client_request = readFromSocket(c_fd)) != NULL)
+	{
+	  printf("client request : %s\n", client_request);
+	  free(client_request);
+	  usleep(300000);
+	  writeToFd(c_fd, "message recieved, now go fuck yourself >:(", 1);
+	}
+    }
   (void)s_fd;
   (void)c_fd;
   (void)s_sock;
@@ -39,6 +49,7 @@ int			client_handler(int server_fd,
   c_in_size = sizeof(c_sock);
   if ((client_fd = accept(server_fd, (sock)&c_sock, &c_in_size)) != -1)
     {
+      loginDisplay(client_fd, inet_ntoa(c_sock.sin_addr));
       if ((pid = fork()) == -1)
 	return (close_and_fail(client_fd));
       else if (pid == 0 && nb_clients != QUEUE)

@@ -1,0 +1,23 @@
+/*
+** socketReadWrite.c for JEFFTP in /home/ganesha/projets/PSU_2014_myftp
+**
+** Made by Ambroise Coutarel
+** Login   <ganesha@epitech.net>
+**
+** Started on  Tue Mar 10 10:13:11 2015 Ambroise Coutarel
+** Last update Tue Mar 10 10:16:17 2015 Ambroise Coutarel
+*/
+
+#include "../../include/jefftp.h"
+
+int	readFromSocket2(int socket, char* buffer)
+{
+  int	len;
+
+  ioctl(socket, FIONREAD, &len);
+  if (len > 0)
+    {
+    }
+  else
+    return (-1);
+}
