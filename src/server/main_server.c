@@ -5,46 +5,72 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Tue Mar 10 16:26:18 2015 Ambroise Coutarel
+** Last update Wed Mar 11 16:05:34 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
-int			client_transaction(int s_fd, struct sockaddr_in *s_sock, 
-					   t_client *client) 
-{
-  char			*client_request;
 
+t_command g_commands[16];
+
+int	query_parsing(char *query, t_client *client)
+{
+  char	**queryTab;
+  int	i;
+
+  (void)client;
+  i = 0;
+  queryTab = my_str_to_wordtab(query, ' ');
+  strlower(queryTab[0], 0);
+  while (i != 16)
+    {
+      if (strcmp(queryTab[0], g_commands[i].ftp_command) == 0)
+	{
+	  g_commands[i].func(queryTab);
+	  free_wordtab(queryTab);
+	  return (0);
+	}
+      ++i;
+    }
+  printf("user asked for an unknown command.\n");
+  free_wordtab(queryTab);
+  return(0);
+}
+
+int	client_transaction(int s_fd, struct sockaddr_in *s_sock,
+					   t_client *client)
+{
+  char	*client_request;
+
+  init_commands(g_commands);
   printf("IP client : %s\n", client->ip);
   while ("Jeff")
     {
-      if ((client_request = readFromSocket(client->fd)) != NULL)
+      while ((client_request = readFromSocket(client->fd)) == NULL)
+	usleep(300000);
+      query_parsing(client_request, client);
+      if ((strcmp(client_request, "quit")) == 0)
 	{
-	  printf("client request : %s\n", client_request);
-	  if ((strcmp(client_request, "quit")) == 0)
-	    {
-	      close(client->fd);
-	      return(0);
-	    }
-	  free(client_request);
-	  writeToFd(client->fd, "you requested a thing", 0);
+	  close(client->fd);
+	  return(0);
 	}
+      free(client_request);
+      //writeToFd(client->fd, "you requested a thing", 0);
     }
   (void)s_fd;
   (void)s_sock;
   return (0);
 }
 
-int			client_handler(int server_fd, 
+int			client_handler(int server_fd,
 				       struct sockaddr_in *s_sock)
 {
   t_client		client;
-  /* struct sockaddr_in	c_sock; */
-  /* int			client_fd; */
   int			pid;
   socklen_t		c_in_size;
 
 
+  client.isLogged = 0;
   c_in_size = sizeof(client.sock);
   if ((client.fd = accept(server_fd, (sock)&(client.sock), &c_in_size)) != -1)
     {
@@ -57,17 +83,6 @@ int			client_handler(int server_fd,
       else
 	return (0);
     }
-  /* c_in_size = sizeof(c_sock); */
-  /* if ((client_fd = accept(server_fd, (sock)&c_sock, &c_in_size)) != -1) */
-  /*   { */
-  /*     loginDisplay(client_fd, inet_ntoa(c_sock.sin_addr)); */
-  /*     if ((pid = fork()) == -1) */
-  /* 	return (close_and_fail(client_fd)); */
-  /*     else if (pid == 0) */
-  /* 	client_transaction(server_fd, client_fd, &c_sock, s_sock); */
-  /*     else */
-  /* 	return (0); */
-  /*   } */
   else
     close_and_fail(client.fd);
   return (0);

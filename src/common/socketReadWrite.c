@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Mar 10 10:13:11 2015 Ambroise Coutarel
-** Last update Tue Mar 10 13:40:20 2015 Ambroise Coutarel
+** Last update Wed Mar 11 10:15:26 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -20,6 +20,7 @@ char*	readFromSocket(int socket)
   int	len;
   char	*buffer;
 
+  len = 0;
   ioctl(socket, FIONREAD, &len);
   if (len > 0)
     {

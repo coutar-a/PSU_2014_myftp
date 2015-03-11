@@ -5,12 +5,33 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Mar 10 16:08:42 2015 Ambroise Coutarel
-** Last update Tue Mar 10 16:09:39 2015 Ambroise Coutarel
+** Last update Wed Mar 11 13:58:43 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
-void		client_init(t_client *client)
+void	subinit(t_command *command, char *name, int (*func)(char **))
 {
+  command->ftp_command = strdup(name);
+  command->func = func;
+}
 
+void	init_commands(t_command commands[16])
+{
+  subinit(&(commands[0]), "user", &user);
+  subinit(&(commands[1]), "pass", &pass);
+  subinit(&(commands[2]), "cwd", &cwd);
+  subinit(&(commands[3]), "cdup", &cdup);
+  subinit(&(commands[4]), "quit", &quit);
+  subinit(&(commands[5]), "retr", &retr);
+  subinit(&(commands[6]), "stor", &stor);
+  subinit(&(commands[7]), "dele", &dele);
+  subinit(&(commands[8]), "pwd", &pwd);
+  subinit(&(commands[9]), "list", &list);
+  subinit(&(commands[10]), "help", &help);
+  subinit(&(commands[11]), "noop", &noop);
+  subinit(&(commands[12]), "ls", &list);
+  subinit(&(commands[13]), "cd", &cwd);
+  subinit(&(commands[14]), "get", &retr);
+  subinit(&(commands[15]), "put", &stor);
 }

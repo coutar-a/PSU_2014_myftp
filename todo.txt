@@ -7,9 +7,9 @@
 
 -quit <CRLF>: self explanatory
 
--retr <SPACE> <filename> <CRLF>: retrieve a copy of the file
+-retr <SPACE> <filename> <CRLF>: retrieve a copy of the file <=> get
 
--stor <SPACE> <local file> <CRLF>: store file on server : overwrites and creates file on serveur
+-stor <SPACE> <local file> <CRLF>: store file on server : overwrites and creates file on serveur <=> put
 
 -dele <SPACE> <file> <CRLF>: deletes file
 
@@ -20,3 +20,5 @@
 -help <SPACE> <command> <CRLF>: prints help for that command
 
 -noop <CRLF> : no operation : does nothing (???)
+
+14 commands

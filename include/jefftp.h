@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Tue Mar 10 15:53:03 2015 Ambroise Coutarel
+** Last update Wed Mar 11 13:59:33 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -35,9 +35,28 @@
 # define INFO1		"Please enter a command, or type help for a "
 # define INFO2		"list of commands"
 # define PROMPT		"JefFTP $>"
+# define PATHNAME	"\"%s\n\" created."
 
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
+
+typedef struct		s_command
+{
+  char			*ftp_command;
+  int			(*func)(char **param);
+}			t_command;
+
+typedef struct		s_reply
+{
+  char			*code;
+  char			*verbose;
+}			t_reply;
+
+typedef struct		s_user
+{
+  char			*username;
+  char			*pass;
+}			t_user;
 
 typedef struct		s_client
 {
@@ -51,6 +70,21 @@ typedef struct		s_client
 /*
 ** function prototypes for serveur
 */
+
+void	init_commands(t_command commands[16]);
+void	subinit(t_command *command, char *name, int (*func)(char **));
+int	user(char **param);
+int	pass(char **param);
+int	cwd(char **param);
+int	cdup(char **param);
+int	quit(char **param);
+int	retr(char **param);
+int	stor(char **param);
+int	dele(char **param);
+int	pwd(char **param);
+int	list(char **param);
+int	help(char **param);
+int	noop(char **param);
 
 /*
 ** function prototypes for client
@@ -66,5 +100,11 @@ char*	readFromSocket(int socket);
 int	readFromStdin(char buffer[256]);
 void	loginDisplay(int c_fd, char *client_ip);
 void	strlower(char *str, char stop);
+char**	my_str_to_wordtab(char *str, char sep);
+void	free_wordtab(char **tab);
+void	view_wordtab(char **tab, char newline);
+
+extern	t_command	g_commands[16];
+extern	t_reply		g_replies[14];
 
 #endif /* !JEFFTP_H_ */

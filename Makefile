@@ -5,16 +5,21 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Tue Mar 10 12:58:02 2015 Ambroise Coutarel
+## Last update Wed Mar 11 13:55:20 2015 Ambroise Coutarel
 ##
 
-SRC_SERVER	=	./src/server/main_server.c	
+SRC_SERVER	=	./src/server/main_server.c		\
+			./src/server/client_handling.c		\
+			./src/server/serverFunctions_1.c	\
+			./src/server/serverFunctions_2.c	\
+			./src/server/serverFunctions_3.c
 
 SRC_CLIENT	=	./src/client/main_client.c
 
-SRC_COMMON	=	./src/common/errors.c		\
-			./src/common/display.c		\
-			./src/common/socketReadWrite.c
+SRC_COMMON	=	./src/common/errors.c			\
+			./src/common/display.c			\
+			./src/common/socketReadWrite.c		\
+			./src/common/my_str_to_wordtab.c
 
 OBJ_SERVER	=	$(SRC_SERVER:.c=.o)
 

@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:19:05 2015 Ambroise Coutarel
-** Last update Tue Mar 10 15:30:21 2015 Ambroise Coutarel
+** Last update Wed Mar 11 10:12:23 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -20,7 +20,7 @@ int	command_line(int socket)
   free(server_msg);
   while("jeff")
     {
-      writeToFd(0, PROMPT, 0);
+      writeToFd(1, PROMPT, 0);
       readFromStdin(user_request);
       writeToFd(socket, user_request, 0);
       strlower(user_request, 0);
