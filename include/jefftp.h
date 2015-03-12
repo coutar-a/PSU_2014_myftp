@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Thu Mar 12 15:44:41 2015 Ambroise Coutarel
+** Last update Thu Mar 12 19:06:28 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -25,13 +25,12 @@
 # include <arpa/inet.h>
 # include <stdarg.h>
 # include <ctype.h>
+# include <dirent.h>
 
 # define CAST_C		const struct sockaddr *
 # define CAST_NC	struct sockaddr *
 # define QUEUE		5
 # define GREETING	"Welcome to JefFTP ! Your IP address is : "
-# define LOGIN		"Please enter your login : "
-# define PASSWD		"Please enter your password : "
 # define INFO1		"Please enter a command, or type help for a "
 # define INFO2		"list of commands"
 # define PROMPT		"JefFTP $>"
@@ -54,7 +53,8 @@ typedef struct		s_server
 {
   struct sockaddr_in	sock;
   char			*root;
-  char			*cwd;
+  char			*sys_cwd;
+  char			*ftp_cwd;
   int			fd;
 }			t_server;
 
@@ -65,11 +65,11 @@ typedef struct		s_command
 				t_server *server);
 }			t_command;
 
-typedef struct		s_reply
+typedef struct		s_helpmsg
 {
-  char			*code;
+  char			*command;
   char			*verbose;
-}			t_reply;
+}			t_helpmsg;
 
 typedef struct		s_user
 {
@@ -82,6 +82,7 @@ typedef struct		s_user
 */
 
 void	init_commands(t_command commands[16]);
+void	init_server(t_server *server);
 void	subinit(t_command *command, char *name, 
 		int (*func)(char **, t_client *, t_server *));
 int	user(char **param, t_client *client, t_server *server);
@@ -116,6 +117,5 @@ void	free_wordtab(char **tab);
 void	view_wordtab(char **tab, char newline);
 
 extern	t_command	g_commands[16];
-extern	t_reply		g_replies[14];
 
 #endif /* !JEFFTP_H_ */

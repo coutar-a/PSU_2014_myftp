@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Thu Mar 12 15:52:58 2015 Ambroise Coutarel
+** Last update Thu Mar 12 15:56:20 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -41,10 +41,8 @@ int	query_parsing(char *query, t_client *client, t_server *server)
 int	client_transaction(t_client *client, t_server *server)
 {
   char	*client_request;
-  char	*server_root;
 
-  server_root = getcwd(NULL, 0);
-  printf("server root folder : %s\n", server_root);
+  printf("server root folder : %s\n", server->root);
   init_commands(g_commands);
   printf("IP client : %s\n", client->ip);
   while ("Jeff")
@@ -96,6 +94,7 @@ int			main(int argc, char **argv)
   server.sock.sin_family = AF_INET;
   server.sock.sin_port = htons(atoi(argv[1]));
   server.sock.sin_addr.s_addr = INADDR_ANY;
+  init_server(&server);
   if ((prot = getprotobyname("TCP")) == NULL)
     return (-1);
   if ((server.fd = socket(AF_INET, SOCK_STREAM, prot->p_proto)) == -1)

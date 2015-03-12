@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Mar 10 16:08:42 2015 Ambroise Coutarel
-** Last update Thu Mar 12 15:46:47 2015 Ambroise Coutarel
+** Last update Thu Mar 12 19:07:26 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -35,4 +35,11 @@ void	init_commands(t_command commands[16])
   subinit(&(commands[13]), "cd", &cwd);
   subinit(&(commands[14]), "get", &retr);
   subinit(&(commands[15]), "put", &stor);
+}
+
+void	init_server(t_server *server)
+{
+  server->root = getcwd(NULL, 0);
+  server->sys_cwd = getcwd(NULL, 0);
+  server->ftp_cwd = strdup("/");
 }
