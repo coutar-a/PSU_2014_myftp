@@ -5,7 +5,7 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Wed Mar 11 13:55:20 2015 Ambroise Coutarel
+## Last update Thu Mar 12 13:42:03 2015 Ambroise Coutarel
 ##
 
 SRC_SERVER	=	./src/server/main_server.c		\
@@ -18,7 +18,7 @@ SRC_CLIENT	=	./src/client/main_client.c
 
 SRC_COMMON	=	./src/common/errors.c			\
 			./src/common/display.c			\
-			./src/common/socketReadWrite.c		\
+			./src/common/socket_read_write.c	\
 			./src/common/my_str_to_wordtab.c
 
 OBJ_SERVER	=	$(SRC_SERVER:.c=.o)
@@ -36,6 +36,8 @@ NAME_SERVER	=	serveur
 NAME_CLIENT	=	client
 
 CFLAGS	+=	-W -Wall -Wextra -Werror
+
+## flag pour valgrind, à virer avant rendu
 
 GFLAGS	+=	-g3
 

@@ -5,15 +5,16 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Mar 10 16:08:42 2015 Ambroise Coutarel
-** Last update Wed Mar 11 13:58:43 2015 Ambroise Coutarel
+** Last update Thu Mar 12 15:46:47 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
-void	subinit(t_command *command, char *name, int (*func)(char **))
+void	subinit(t_command *cmd, char *name,
+		int (*func)(char **, t_client *, t_server *))
 {
-  command->ftp_command = strdup(name);
-  command->func = func;
+  cmd->ftp_command = strdup(name);
+  cmd->func = func;
 }
 
 void	init_commands(t_command commands[16])

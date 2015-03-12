@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:19:05 2015 Ambroise Coutarel
-** Last update Wed Mar 11 10:12:23 2015 Ambroise Coutarel
+** Last update Thu Mar 12 13:48:53 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -15,24 +15,23 @@ int	command_line(int socket)
   char			*server_msg;
   char			user_request[256];
 
-  server_msg = readFromSocket(socket);
-  printf("%s\n", server_msg);
+  server_msg = read_from_socket(socket);
+  write_to_fd(1, server_msg, 1);
   free(server_msg);
   while("jeff")
     {
-      writeToFd(1, PROMPT, 0);
-      readFromStdin(user_request);
-      writeToFd(socket, user_request, 0);
+      write_to_fd(1, PROMPT, 0);
+      read_from_stdin(user_request);
+      write_to_fd(socket, user_request, 0);
       strlower(user_request, 0);
+      while ((server_msg = read_from_socket(socket)) == NULL)
+	usleep(300000);
+      write_to_fd(1, server_msg, 1);
+      free(server_msg);
       if ((strcmp(user_request, "quit")) == 0)
 	{
 	  close(socket);
 	  exit(0);
-	}
-      if ((server_msg = readFromSocket(socket)) != NULL)
-	{
-	  printf("Server says : %s\n", server_msg);
-	  free(server_msg);
 	}
     }
   return (0);
@@ -46,7 +45,7 @@ int	main(int argc, char **argv)
   
   if (argc < 3)
     {
-      printf("Usage : ./server <IP> <port>\n");
+      printf("Usage : ./client <IP> <port>\n");
       return (0);
     }
   sock_in.sin_family = AF_INET;

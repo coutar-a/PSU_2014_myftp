@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Wed Mar 11 13:59:33 2015 Ambroise Coutarel
+** Last update Thu Mar 12 15:44:41 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -40,10 +40,29 @@
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
 
+
+typedef struct		s_client
+{
+  char			*ip;
+  char			*name;
+  struct sockaddr_in	sock;
+  char			is_logged;
+  int			fd;
+}			t_client;
+
+typedef struct		s_server
+{
+  struct sockaddr_in	sock;
+  char			*root;
+  char			*cwd;
+  int			fd;
+}			t_server;
+
 typedef struct		s_command
 {
   char			*ftp_command;
-  int			(*func)(char **param);
+  int			(*func)(char **param, t_client *client, 
+				t_server *server);
 }			t_command;
 
 typedef struct		s_reply
@@ -58,33 +77,25 @@ typedef struct		s_user
   char			*pass;
 }			t_user;
 
-typedef struct		s_client
-{
-  char			*ip;
-  char			*name;
-  struct sockaddr_in	sock;
-  char			isLogged;
-  int			fd;
-}			t_client;
-
 /*
 ** function prototypes for serveur
 */
 
 void	init_commands(t_command commands[16]);
-void	subinit(t_command *command, char *name, int (*func)(char **));
-int	user(char **param);
-int	pass(char **param);
-int	cwd(char **param);
-int	cdup(char **param);
-int	quit(char **param);
-int	retr(char **param);
-int	stor(char **param);
-int	dele(char **param);
-int	pwd(char **param);
-int	list(char **param);
-int	help(char **param);
-int	noop(char **param);
+void	subinit(t_command *command, char *name, 
+		int (*func)(char **, t_client *, t_server *));
+int	user(char **param, t_client *client, t_server *server);
+int	pass(char **param, t_client *client, t_server *server);
+int	cwd(char **param, t_client *client, t_server *server);
+int	cdup(char **param, t_client *client, t_server *server);
+int	quit(char **param, t_client *client, t_server *server);
+int	retr(char **param, t_client *client, t_server *server);
+int	stor(char **param, t_client *client, t_server *server);
+int	dele(char **param, t_client *client, t_server *server);
+int	pwd(char **param, t_client *client, t_server *server);
+int	list(char **param, t_client *client, t_server *server);
+int	help(char **param, t_client *client, t_server *server);
+int	noop(char **param, t_client *client, t_server *server);
 
 /*
 ** function prototypes for client
@@ -95,10 +106,10 @@ int	noop(char **param);
 */
 
 int	close_and_fail(int fd);
-void	writeToFd(int fd, char *str, char newline);
-char*	readFromSocket(int socket);
-int	readFromStdin(char buffer[256]);
-void	loginDisplay(int c_fd, char *client_ip);
+void	write_to_fd(int fd, char *str, char newline);
+char*	read_from_socket(int socket);
+int	read_from_stdin(char buffer[256]);
+void	login_display(int c_fd, char *client_ip);
 void	strlower(char *str, char stop);
 char**	my_str_to_wordtab(char *str, char sep);
 void	free_wordtab(char **tab);
