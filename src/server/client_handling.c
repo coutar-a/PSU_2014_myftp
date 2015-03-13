@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Tue Mar 10 16:08:42 2015 Ambroise Coutarel
-** Last update Thu Mar 12 19:07:26 2015 Ambroise Coutarel
+** Last update Fri Mar 13 17:24:52 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -41,5 +41,5 @@ void	init_server(t_server *server)
 {
   server->root = getcwd(NULL, 0);
   server->sys_cwd = getcwd(NULL, 0);
-  server->ftp_cwd = strdup("/");
+  server->ftp_cwd = strdup("/root");
 }

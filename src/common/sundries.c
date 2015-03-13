@@ -5,7 +5,7 @@
 ** Login   <coutar_a@epitech.net>
 ** 
 ** Started on  Sun Dec 29 17:10:06 2013 coutar_a
-** Last update Thu Mar 12 18:56:44 2015 Ambroise Coutarel
+** Last update Fri Mar 13 13:59:31 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -23,7 +23,7 @@ char	*my_strcat(char *dest, char *src)
 
   i = 0;
   j = 0;
-  l = my_strlen(dest) + my_strlen(src) + 1;
+  l = strlen(dest) + strlen(src) + 1;
   if ((ret = malloc((l) * sizeof(char))) == NULL)
     return (NULL);
   ret[l - 1] = '\0';

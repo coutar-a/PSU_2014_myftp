@@ -5,7 +5,7 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Thu Mar 12 19:24:35 2015 Ambroise Coutarel
+## Last update Fri Mar 13 13:59:00 2015 Ambroise Coutarel
 ##
 
 SRC_SERVER	=	./src/server/main_server.c		\
@@ -13,14 +13,16 @@ SRC_SERVER	=	./src/server/main_server.c		\
 			./src/server/server_functions_1.c	\
 			./src/server/server_functions_2.c	\
 			./src/server/server_functions_3.c	\
-			./src/server/list_dependencies.c
+			./src/server/list_dependencies.c	\
+			./src/server/cd_dependencies.c
 
 SRC_CLIENT	=	./src/client/main_client.c
 
 SRC_COMMON	=	./src/common/errors.c			\
 			./src/common/display.c			\
 			./src/common/socket_read_write.c	\
-			./src/common/my_str_to_wordtab.c
+			./src/common/my_str_to_wordtab.c	\
+			./src/common/sundries.c
 
 OBJ_SERVER	=	$(SRC_SERVER:.c=.o)
 
@@ -36,11 +38,13 @@ NAME_SERVER	=	serveur
 
 NAME_CLIENT	=	client
 
-CFLAGS	+=	-W -Wall -Wextra -Werror
+CFLAGS		+=	-W -Wall -Wextra -Werror
 
 ## flag pour valgrind, à virer avant rendu
 
-GFLAGS	+=	-g3
+GFLAGS		+=	-g3
+
+## fin partie à retirer
 
 all:	common $(NAME_SERVER) $(NAME_CLIENT)
 

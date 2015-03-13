@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Fri Mar 13 11:42:30 2015 Ambroise Coutarel
+** Last update Fri Mar 13 17:16:25 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -13,6 +13,7 @@
 # define JEFFTP_H_
 
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/socket.h>
 # include <sys/ioctl.h>
 # include <sys/dir.h>
@@ -27,6 +28,7 @@
 # include <stdarg.h>
 # include <ctype.h>
 # include <dirent.h>
+# include <errno.h>
 
 # define CAST_C		const struct sockaddr *
 # define CAST_NC	struct sockaddr *
@@ -46,6 +48,7 @@
 # define CODE_502	"502 : Command not implemented."
 # define CODE_505	"505 : Requested action not taken. File unavailable."
 # define CODE_530	"530 : Not logged in."
+# define ROOT_CDUP	"Already at filesystem root."
 	
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
@@ -109,6 +112,16 @@ int	list(char **param, t_client *client, t_server *server);
 int	help(char **param, t_client *client, t_server *server);
 int	noop(char **param, t_client *client, t_server *server);
 void	list_dir(char *pathname, t_client *client);
+void	list_file(char *pathname, t_client *client);
+void	write_desc(int fd, char *path, char *desc);
+int	sys_to_ftp_cwd(t_server *server);
+int	str_cdup(t_server *server);
+int	cwd_root(t_server *server);
+int	str_cwd(t_server *server, char *pathname);
+int	sys_to_ftp_cwd(t_server *server);
+int	str_cdup(t_server *server);
+char	*my_strcat(char *dest, char *src);
+char	*supercat(char *str1, char *str2, char *str3);
 
 /*
 ** function prototypes for client

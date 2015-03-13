@@ -1,24 +1,24 @@
--user <SPACE> <login> <CRLF>
-      |-> pass <SPACE> <passwd> <CRLF>
+-user <SPACE> <login> <CRLF> //DONE
+      |-> pass <SPACE> <passwd> <CRLF> // DONE
 
--cwd <SPACE> <pathname> <CRLF> : change working directory
+-cwd <SPACE> <pathname> <CRLF> : change working directory //buggy
 
--cdup <CRLF>: change to parent directory
+-cdup <CRLF>: change to parent directory //buggy
 
--quit <CRLF>: self explanatory
+-quit <CRLF>: self explanatory //DONE
 
 -retr <SPACE> <filename> <CRLF>: retrieve a copy of the file <=> get
 
 -stor <SPACE> <local file> <CRLF>: store file on server : overwrites and creates file on serveur <=> put
 
--dele <SPACE> <file> <CRLF>: deletes file
+-dele <SPACE> <file> <CRLF>: deletes file //DONE
 
--PWD <CRLF>: printf working directory
+-PWD <CRLF>: print working directory //DONE
 
--list <SPACE> <pathname> <CRLF>: list files in directory
+-list <SPACE> <pathname> <CRLF>: list files in directory //DONE
 
 -help <SPACE> <command> <CRLF>: prints help for that command
 
--noop <CRLF> : no operation : does nothing (???)
+-noop <CRLF> : no operation : does nothing (???) //DONE
 
 14 commands

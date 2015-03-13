@@ -5,10 +5,30 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Thu Mar 12 19:17:55 2015 Ambroise Coutarel
-** Last update Fri Mar 13 11:00:23 2015 Ambroise Coutarel
+** Last update Fri Mar 13 16:27:41 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
+
+void			write_desc(int fd, char *path, char *desc)
+{
+  write_to_fd(fd, path, 0);
+  write_to_fd(fd, " : ", 0);
+  write_to_fd(fd, desc, 0);
+}
+
+void			list_file(char *pathname, t_client *client)
+{
+  struct stat	buf;
+
+  stat(pathname, &buf);
+  if(S_ISREG(buf.st_mode))
+    write_desc(client->fd, pathname, "Regular file.");
+  else if(S_ISLNK(buf.st_mode))
+    write_desc(client->fd, pathname, "Symbolic link.");
+  else
+    write_desc(client->fd, pathname, "Unknown file type.");
+}
 
 void			list_dir(char *pathname, t_client *client)
 {
