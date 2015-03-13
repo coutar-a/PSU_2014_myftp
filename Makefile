@@ -5,14 +5,15 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Thu Mar 12 16:52:32 2015 Ambroise Coutarel
+## Last update Thu Mar 12 19:24:35 2015 Ambroise Coutarel
 ##
 
 SRC_SERVER	=	./src/server/main_server.c		\
 			./src/server/client_handling.c		\
 			./src/server/server_functions_1.c	\
 			./src/server/server_functions_2.c	\
-			./src/server/server_functions_3.c
+			./src/server/server_functions_3.c	\
+			./src/server/list_dependencies.c
 
 SRC_CLIENT	=	./src/client/main_client.c
 

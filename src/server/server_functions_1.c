@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 12:55:04 2015 Ambroise Coutarel
-** Last update Thu Mar 12 18:54:50 2015 Ambroise Coutarel
+** Last update Fri Mar 13 11:37:47 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -22,17 +22,17 @@ int	user(char **param, t_client *client, t_server *server)
       if (strcmp(client->name, "Anonymous") == 0)
 	{
 	  client->is_logged = 1;
-	  write_to_fd(client->fd, "230 : User logged in, proceed.", 0);
+	  write_to_fd(client->fd, CODE_230, 0);
 	}
       else
 	{
 	  client->is_logged = 0;
-	  write_to_fd(client->fd, "331 : User name okay, need password.", 0);
+	  write_to_fd(client->fd, CODE_331, 0);
 	  return (0);
 	}
     }
   else
-    write_to_fd(client->fd, "501 : Syntax error", 0);
+    write_to_fd(client->fd, CODE_501, 0);
   return (0);
 }
 
@@ -45,12 +45,12 @@ int	pass(char **param, t_client *client, t_server *server)
   if (client->name)
     {
       if (strcmp(client->name, "Anonymous") == 0 || client->is_logged == 1)
-	write_to_fd(client->fd, "230 : User logged in, proceed.", 0);
+	write_to_fd(client->fd, CODE_230, 0);
       else
-	write_to_fd(client->fd, "502 : Command not implemented.", 0);
+	write_to_fd(client->fd, CODE_502, 0);
     }
   else
-    write_to_fd(client->fd, "332 : Need account for login.", 0);
+    write_to_fd(client->fd, CODE_332, 0);
   return (0);
 }
 
@@ -60,10 +60,10 @@ int	cwd(char **param, t_client *client, t_server *server)
   printf("user asked for command %s\n", param[0]);
   if (client->is_logged)
     {
-      write_to_fd(client->fd, "200 : Command okay.", 0);
+      write_to_fd(client->fd, CODE_200, 0);
     }
   else
-    write_to_fd(client->fd, " 530 : Not logged in.", 0);
+    write_to_fd(client->fd, CODE_530, 0);
   return (0);
 }
 
@@ -73,10 +73,10 @@ int	cdup(char **param, t_client *client, t_server *server)
     {
       (void)server;
       printf("user asked for command %s\n", param[0]);
-      write_to_fd(client->fd, "200 : Command okay.", 0);
+      write_to_fd(client->fd, CODE_200, 0);
     }
   else
-    write_to_fd(client->fd, "530 : Not logged in", 0);
+    write_to_fd(client->fd, CODE_530, 0);
   return (0);
 }
 
@@ -85,7 +85,7 @@ int	quit(char **param, t_client *client, t_server *server)
   (void)server;
   (void)param;
   printf("user %s IP %s is logging out\n", client->name, client->ip);
-  write_to_fd(client->fd, "221 : Service closing control connection.", 0);
+  write_to_fd(client->fd, CODE_221, 0);
   close(client->fd);
   return (0);
 }

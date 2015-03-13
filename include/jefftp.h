@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Thu Mar 12 19:06:28 2015 Ambroise Coutarel
+** Last update Fri Mar 13 11:42:30 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -15,6 +15,7 @@
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <sys/ioctl.h>
+# include <sys/dir.h>
 # include <netdb.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -35,7 +36,17 @@
 # define INFO2		"list of commands"
 # define PROMPT		"JefFTP $>"
 # define PATHNAME	"\"%s\n\" created."
-
+# define CODE_200	"200 : Command okay."
+# define CODE_230	"230 : User logged in, proceed."
+# define CODE_250	"250 : Requested file action okay, completed."
+# define CODE_221	"221 : Service closing control connection."
+# define CODE_331	"331 : User name okay, need password."
+# define CODE_332	"332 : Need account for login."
+# define CODE_501	"501 : Syntax error"
+# define CODE_502	"502 : Command not implemented."
+# define CODE_505	"505 : Requested action not taken. File unavailable."
+# define CODE_530	"530 : Not logged in."
+	
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
 
@@ -97,6 +108,7 @@ int	pwd(char **param, t_client *client, t_server *server);
 int	list(char **param, t_client *client, t_server *server);
 int	help(char **param, t_client *client, t_server *server);
 int	noop(char **param, t_client *client, t_server *server);
+void	list_dir(char *pathname, t_client *client);
 
 /*
 ** function prototypes for client

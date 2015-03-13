@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 13:01:11 2015 Ambroise Coutarel
-** Last update Thu Mar 12 18:46:38 2015 Ambroise Coutarel
+** Last update Fri Mar 13 11:27:55 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -26,9 +26,9 @@ int		noop(char **param, t_client *client, t_server *server)
       (void)server;
       printf("user asked for command noop !\n");
       (void)param;
-      write_to_fd(client->fd, "200 : Command okay.", 0);
+      write_to_fd(client->fd, CODE_200, 0);
     }
   else
-    write_to_fd(client->fd, "530 : Not logged in", 0);
+    write_to_fd(client->fd, CODE_530, 0);
   return (0);
 }
