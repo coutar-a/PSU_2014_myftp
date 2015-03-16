@@ -5,7 +5,7 @@
 ## Login   <ganesha@epitech.net>
 ##
 ## Started on  Mon Mar  9 12:10:29 2015 Ambroise Coutarel
-## Last update Fri Mar 13 13:59:00 2015 Ambroise Coutarel
+## Last update Mon Mar 16 12:47:25 2015 Ambroise Coutarel
 ##
 
 SRC_SERVER	=	./src/server/main_server.c		\
@@ -14,15 +14,19 @@ SRC_SERVER	=	./src/server/main_server.c		\
 			./src/server/server_functions_2.c	\
 			./src/server/server_functions_3.c	\
 			./src/server/list_dependencies.c	\
-			./src/server/cd_dependencies.c
+			./src/server/cd_dependencies.c		\
+			./src/server/dele_dependencies.c	\
+			./src/server/file_dependencies.c
 
-SRC_CLIENT	=	./src/client/main_client.c
+SRC_CLIENT	=	./src/client/main_client.c		\
+			./src/client/files_client.c
 
 SRC_COMMON	=	./src/common/errors.c			\
 			./src/common/display.c			\
 			./src/common/socket_read_write.c	\
 			./src/common/my_str_to_wordtab.c	\
-			./src/common/sundries.c
+			./src/common/sundries.c			\
+			./src/common/file_functions.c
 
 OBJ_SERVER	=	$(SRC_SERVER:.c=.o)
 
@@ -55,6 +59,7 @@ $(NAME_SERVER):	$(OBJ_SERVER)
 
 $(NAME_CLIENT):	$(OBJ_CLIENT)
 		$(CC) -o $(NAME_CLIENT) $(OBJ_CLIENT) $(OBJ_COMMON) $(CFLAGS) $(GFLAGS)
+		cp $(NAME_CLIENT) ~/jefftest/
 
 clean:
 	$(RM) $(OBJ_SERVER) $(OBJ_CLIENT) $(OBJ_COMMON)

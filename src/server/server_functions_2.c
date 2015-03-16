@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 12:57:47 2015 Ambroise Coutarel
-** Last update Fri Mar 13 16:16:56 2015 Ambroise Coutarel
+** Last update Mon Mar 16 15:48:28 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -14,11 +14,8 @@ int		retr(char **param, t_client *client, t_server *server)
 {
   if (client->is_logged)
     {
-      (void)server;
-      printf("user asked for command retr !\n");
-      (void)param;
-      write_to_fd(client->fd, "JEFF !!", 0);
-      (void)client;
+      printf("user asked for %s in %s\n", param[1], server->sys_cwd);
+      serv_snd_file(param[1], client, server);
     }
   else
     write_to_fd(client->fd, CODE_530, 0);
@@ -29,11 +26,8 @@ int		stor(char **param, t_client *client, t_server *server)
 {
   if (client->is_logged)
     {
-      (void)server;
-      printf("user asked for command stor !\n");
-      (void)param;
-      write_to_fd(client->fd, "JEFF !!", 0);
-      (void)client;
+      printf("user asked to store %s in %s\n", param[1], server->sys_cwd);
+      serv_rcv_file(param[1], client, server);
     }
   else
     write_to_fd(client->fd, CODE_530, 0);
@@ -42,21 +36,12 @@ int		stor(char **param, t_client *client, t_server *server)
 
 int		dele(char **param, t_client *client, t_server *server)
 {
-  int		file;
-
+  (void)server;
   if (client->is_logged)
       {
 	if(param[1])
 	  {
-	    if ((file = access(param[1], F_OK | R_OK | W_OK)) == -1)
-	      write_to_fd(client->fd, CODE_505, 0);
-	    else
-	      {
-		printf("user asked to delete file %s\n", param[1]);
-		unlink(param[1]);
-		(void)server;
-		write_to_fd(client->fd, CODE_250, 0);
-	      }
+	    delete_file(param[1], client);
 	  }
 	else
 	  write_to_fd(client->fd, CODE_501, 0);
@@ -78,21 +63,11 @@ int		pwd(char **param, t_client *client, t_server *server)
 
 int		list(char **param, t_client *client, t_server *server)
 {
-  struct stat	buf;
-
-  if(client->is_logged)
+  if (client->is_logged)
     {
       printf("user asked to list %s\n", param[1] ? param[1] : server->sys_cwd);
       if (param[1])
-	{
-	  if (access(param[1], F_OK | R_OK | W_OK))
-	    return (-1); // display error message, stop
-	  stat(param[1], &buf);
-	  if(S_ISDIR(buf.st_mode))
-	    list_dir(param[1], client);
-	  else
-	    list_file(param[1], client);
-	}
+	list_args(param, client);
       else
 	list_dir(server->sys_cwd, client);
     }

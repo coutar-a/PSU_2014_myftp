@@ -5,10 +5,60 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:19:05 2015 Ambroise Coutarel
-** Last update Thu Mar 12 13:48:53 2015 Ambroise Coutarel
+** Last update Mon Mar 16 15:58:52 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
+
+int		arg_check(char **param, char *server_msg, int socket)
+{
+  if (param[1] && (!(strcmp(param[0], "retr")) ||
+		   !(strcmp(param[0], "get"))))
+    {
+      client_rcv_file(param[1], server_msg, socket);
+    }
+  else if (param[1] && (!(strcmp(param[0], "stor")) ||
+			!(strcmp(param[0], "put"))))
+    {
+      printf("Now preparing to send file\n");
+      client_snd_file(param[1], server_msg, socket);
+    }
+  else if ((strcmp(param[0], "quit")) == 0)
+    {
+      close(socket);
+      exit(0);
+    }
+  return (0);
+}
+
+int		rcv_from_serv(char *user_request, char *server_msg, int socket)
+{
+  char		**jeff;
+
+  jeff = my_str_to_wordtab(user_request, ' ');
+  while ((server_msg = read_from_socket(socket)) == NULL)
+    usleep(300000);
+  arg_check(jeff, server_msg, socket);
+  /* if (!(strcmp(jeff[0], "retr")) || !(strcmp(jeff[0], "get"))) */
+  /*   { */
+  /*     printf("Now preparing to recieve file\n"); */
+  /*     client_rcv_file(jeff[1], server_msg, socket); */
+  /*   } */
+  /* if (!(strcmp(jeff[0], "stor")) || !(strcmp(jeff[0], "put"))) */
+  /*   { */
+  /*     printf("Now preparing to send file\n"); */
+  /*     client_snd_file(jeff[1], server_msg, socket); */
+  /*   } */
+  /* else if ((strcmp(user_request, "quit")) == 0) */
+  /*   { */
+  /*     close(socket); */
+  /*     exit(0); */
+  /*   } */
+  write_to_fd(1, server_msg, 1);
+  free_wordtab(jeff);
+  free(server_msg);
+  return (0);
+}
 
 int	command_line(int socket)
 {
@@ -24,15 +74,16 @@ int	command_line(int socket)
       read_from_stdin(user_request);
       write_to_fd(socket, user_request, 0);
       strlower(user_request, 0);
-      while ((server_msg = read_from_socket(socket)) == NULL)
-	usleep(300000);
-      write_to_fd(1, server_msg, 1);
-      free(server_msg);
-      if ((strcmp(user_request, "quit")) == 0)
-	{
-	  close(socket);
-	  exit(0);
-	}
+      rcv_from_serv(user_request, server_msg, socket);
+      /* while ((server_msg = read_from_socket(socket)) == NULL) */
+      /* 	usleep(300000); */
+      /* write_to_fd(1, server_msg, 1); */
+      /* free(server_msg); */
+      /* if ((strcmp(user_request, "quit")) == 0) */
+      /* 	{ */
+      /* 	  close(socket); */
+      /* 	  exit(0); */
+      /* 	} */
     }
   return (0);
 }
@@ -57,7 +108,10 @@ int	main(int argc, char **argv)
     return (-1);
   if ((connect(s_fd, (sock)&sock_in, sizeof(sock_in))) == -1)
     close_and_fail(s_fd);
-  sleep(2);
-  command_line(s_fd);
+  else
+    {
+      sleep(2);
+      command_line(s_fd);
+    }
   return (0);
 }

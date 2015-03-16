@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:26:04 2015 Ambroise Coutarel
-** Last update Thu Mar 12 15:56:20 2015 Ambroise Coutarel
+** Last update Sat Mar 14 14:00:51 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -19,6 +19,7 @@ int	query_parsing(char *query, t_client *client, t_server *server)
   int	i;
 
   i = 0;
+  printf("IP : %s user query : %s\n", client->ip, query);
   queryTab = my_str_to_wordtab(query, ' ');
   strlower(queryTab[0], 0);
   while (i != 16)

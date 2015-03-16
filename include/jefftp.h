@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Fri Mar 13 17:16:25 2015 Ambroise Coutarel
+** Last update Mon Mar 16 12:59:26 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -17,6 +17,7 @@
 # include <sys/socket.h>
 # include <sys/ioctl.h>
 # include <sys/dir.h>
+# include <sys/sendfile.h>
 # include <netdb.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,6 +30,11 @@
 # include <ctype.h>
 # include <dirent.h>
 # include <errno.h>
+# include <fcntl.h>
+
+/*
+** Macros
+*/
 
 # define CAST_C		const struct sockaddr *
 # define CAST_NC	struct sockaddr *
@@ -38,6 +44,8 @@
 # define INFO2		"list of commands"
 # define PROMPT		"JefFTP $>"
 # define PATHNAME	"\"%s\n\" created."
+# define HELP		"Look it up on the internet, nerd."
+# define CODE_150	"150 : File status okay; about to open data connection."
 # define CODE_200	"200 : Command okay."
 # define CODE_230	"230 : User logged in, proceed."
 # define CODE_250	"250 : Requested file action okay, completed."
@@ -46,13 +54,16 @@
 # define CODE_332	"332 : Need account for login."
 # define CODE_501	"501 : Syntax error"
 # define CODE_502	"502 : Command not implemented."
-# define CODE_505	"505 : Requested action not taken. File unavailable."
 # define CODE_530	"530 : Not logged in."
+# define CODE_550	"550 : Requested action not taken. File unavailable."
 # define ROOT_CDUP	"Already at filesystem root."
-	
+
+/*
+** Typedefs
+*/
+
 typedef const struct sockaddr* constsock;
 typedef struct sockaddr* sock;
-
 
 typedef struct		s_client
 {
@@ -113,6 +124,7 @@ int	help(char **param, t_client *client, t_server *server);
 int	noop(char **param, t_client *client, t_server *server);
 void	list_dir(char *pathname, t_client *client);
 void	list_file(char *pathname, t_client *client);
+int	list_args(char **param, t_client *client);
 void	write_desc(int fd, char *path, char *desc);
 int	sys_to_ftp_cwd(t_server *server);
 int	str_cdup(t_server *server);
@@ -122,10 +134,18 @@ int	sys_to_ftp_cwd(t_server *server);
 int	str_cdup(t_server *server);
 char	*my_strcat(char *dest, char *src);
 char	*supercat(char *str1, char *str2, char *str3);
+int	delete_file(char *file, t_client *client);
+int	cd_and_more(char **param, t_client *client, t_server *server);
+int	serv_rcv_file(char *file, t_client *client, t_server *server);
+int	serv_snd_file(char *file, t_client *client, t_server *server);
 
 /*
 ** function prototypes for client
 */
+
+char	*get_filename(char *request);
+int	client_rcv_file(char *file, char *msg, int socket);
+int	client_snd_file(char *file, char *msg, int socket);
 
 /*
 ** common function prototypes
@@ -140,6 +160,8 @@ void	strlower(char *str, char stop);
 char**	my_str_to_wordtab(char *str, char sep);
 void	free_wordtab(char **tab);
 void	view_wordtab(char **tab, char newline);
+int	ftp_send_file(char *file, int socket);
+int	ftp_rcv_file(char *file, int socket);
 
 extern	t_command	g_commands[16];
 

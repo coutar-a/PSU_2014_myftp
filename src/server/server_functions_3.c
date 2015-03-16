@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 13:01:11 2015 Ambroise Coutarel
-** Last update Fri Mar 13 11:27:55 2015 Ambroise Coutarel
+** Last update Mon Mar 16 10:59:11 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -15,7 +15,7 @@ int		help(char **param, t_client *client, t_server *server)
   (void)server;
   printf("user asked for command help !\n");
   (void)param;
-  write_to_fd(client->fd, "214 : HELP MESSAGE", 0);
+  write_to_fd(client->fd, HELP, 0);
   return (0);
 }
 

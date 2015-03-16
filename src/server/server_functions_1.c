@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 12:55:04 2015 Ambroise Coutarel
-** Last update Fri Mar 13 17:19:35 2015 Ambroise Coutarel
+** Last update Sat Mar 14 15:33:31 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -60,19 +60,7 @@ int	cwd(char **param, t_client *client, t_server *server)
   printf("user asked to change directory to %s\n", param[1]);
   if (client->is_logged)
     {
-      if (param[1])
-	{
-	  if (access(param[1], F_OK | R_OK | W_OK) == -1)
-	    {
-	      printf("ERROR : %s\n", strerror(errno));
-	      write_to_fd(client->fd, "done goofed.", 0);
-	    }
-	  else
-	    str_cwd(server, param[1]);
-	}
-      else
-	cwd_root(server);
-      write_to_fd(client->fd, CODE_200, 0);
+      cd_and_more(param, client, server);
     }
   else
     write_to_fd(client->fd, CODE_530, 0);
@@ -85,10 +73,10 @@ int	cdup(char **param, t_client *client, t_server *server)
     {
       printf("user asked to %s from %s\n", param[0], server->sys_cwd);
       if (strcmp(server->root, server->sys_cwd) == 0)
-	write_to_fd(client->fd, ROOT_CDUP, 0);// can't go any higher than the root directory
+	write_to_fd(client->fd, ROOT_CDUP, 0);
       else
 	{
-	  str_cdup(server);//switch directories
+	  str_cdup(server);
 	  write_to_fd(client->fd, CODE_200, 0);
 	}
     }

@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Fri Mar 13 12:44:49 2015 Ambroise Coutarel
-** Last update Fri Mar 13 17:53:28 2015 Ambroise Coutarel
+** Last update Mon Mar 16 10:01:43 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -29,7 +29,6 @@ int	str_cwd(t_server *server, char *pathname)
   free(server->sys_cwd);
   server->sys_cwd = strdup(new_wd);
   free(new_wd);
-  printf("new sys_wd : %s\n", server->sys_cwd);
   sys_to_ftp_cwd(server);
   return (0);
 }
@@ -38,24 +37,19 @@ int	sys_to_ftp_cwd(t_server *server)
 {
   int	i;
   int	j;
-  char	*buf;
   char	fart[256];
 
   i = 0;
   j = 0;
   while (server->root[i] != 0)
     ++i;
-  buf = strdup(server->ftp_cwd);
   free(server->ftp_cwd);
   while(server->sys_cwd[i++] != 0)
     fart[j++] = server->sys_cwd[i];
   fart[j] = 0;
-  if (!(server->ftp_cwd = malloc(sizeof(char) * (j + strlen(buf) + 1))))
+  if (!(server->ftp_cwd = malloc(sizeof(char) * (j + strlen("/root") + 1))))
     return (-1);
-  printf("fart : %s\n", fart);
-  printf("server_root : %s\n server_wd : %s\n length new cwd ftp : %d\n", server->root, server->sys_cwd, (int)(j + strlen(buf)));
-  server->ftp_cwd = supercat(buf, "/", fart);
-  printf("new ftp_wd : %s\n", server->ftp_cwd);
+  server->ftp_cwd = supercat("/root", "/", fart);
   return (0);
 }
 
@@ -72,9 +66,30 @@ int	str_cdup(t_server *server)
     ++i;
   while (server->ftp_cwd[j] != '/')
     --j;
+  server->sys_cwd[i] = 0;
   server->ftp_cwd[j] = 0;
-  printf("new sys_cwd after cdup : %s\n", server->sys_cwd);
-  printf("new ftp_cwd after cdup : %s\n", server->ftp_cwd);
-  //sys_to_ftp_cwd(server);
+  return (0);
+}
+
+int	cd_and_more(char **param, t_client *client, t_server *server)
+{
+  if (param[1])
+    {
+      if (access(param[1], F_OK | R_OK | W_OK) == -1)
+	{
+	  printf("ERROR : %s\n", strerror(errno));
+	  write_to_fd(client->fd, CODE_550, 0);
+	}
+      else if(strcmp("..", param[1]) == 0)
+	{
+	  cdup(param, client, server);
+	  return (0);
+	}
+      else
+	str_cwd(server, param[1]);
+    }
+  else
+    cwd_root(server);
+  write_to_fd(client->fd, CODE_200, 0);
   return (0);
 }
