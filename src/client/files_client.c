@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar 16 10:30:44 2015 Ambroise Coutarel
-** Last update Mon Mar 16 16:24:37 2015 Ambroise Coutarel
+** Last update Tue Mar 17 12:52:30 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -36,9 +36,10 @@ int	client_snd_file(char *file, char *msg, int socket)
 {
   if ((strcmp(msg, CODE_150)) != 0)
     return(-1);
-  //printf("server message : %s\n", msg);
+  //printf("msg : %s\n", msg);
+  //write_to_fd(socket, CODE_150, 0);
   printf("Now preparing to upload file.\n");
-  //sleep(1);
-  ftp_send_file(file, socket);
+  //ftp_send_file(file, socket);
+  clt_snd_file(file, socket);
   return (0);
 }

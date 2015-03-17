@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:19:05 2015 Ambroise Coutarel
-** Last update Mon Mar 16 15:58:52 2015 Ambroise Coutarel
+** Last update Tue Mar 17 12:49:26 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -15,12 +15,13 @@ int		arg_check(char **param, char *server_msg, int socket)
   if (param[1] && (!(strcmp(param[0], "retr")) ||
 		   !(strcmp(param[0], "get"))))
     {
+      printf("recv files\n");
       client_rcv_file(param[1], server_msg, socket);
     }
   else if (param[1] && (!(strcmp(param[0], "stor")) ||
 			!(strcmp(param[0], "put"))))
     {
-      printf("Now preparing to send file\n");
+      printf("send files\n");
       client_snd_file(param[1], server_msg, socket);
     }
   else if ((strcmp(param[0], "quit")) == 0)
@@ -35,9 +36,11 @@ int		rcv_from_serv(char *user_request, char *server_msg, int socket)
 {
   char		**jeff;
 
+  //printf("JEFF !!!!\n");
   jeff = my_str_to_wordtab(user_request, ' ');
   while ((server_msg = read_from_socket(socket)) == NULL)
     usleep(300000);
+  //printf("server msg : %s\n", server_msg);
   arg_check(jeff, server_msg, socket);
   /* if (!(strcmp(jeff[0], "retr")) || !(strcmp(jeff[0], "get"))) */
   /*   { */
@@ -54,7 +57,8 @@ int		rcv_from_serv(char *user_request, char *server_msg, int socket)
   /*     close(socket); */
   /*     exit(0); */
   /*   } */
-  write_to_fd(1, server_msg, 1);
+  printf("%s\n", server_msg);
+  //write_to_fd(1, server_msg, 1);
   free_wordtab(jeff);
   free(server_msg);
   return (0);
@@ -93,7 +97,7 @@ int	main(int argc, char **argv)
   struct protoent	*prot;
   struct sockaddr_in	sock_in;
   int			s_fd;
-  
+
   if (argc < 3)
     {
       printf("Usage : ./client <IP> <port>\n");

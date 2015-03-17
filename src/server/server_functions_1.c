@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 12:55:04 2015 Ambroise Coutarel
-** Last update Sat Mar 14 15:33:31 2015 Ambroise Coutarel
+** Last update Tue Mar 17 10:32:23 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
@@ -39,7 +39,7 @@ int	user(char **param, t_client *client, t_server *server)
 int	pass(char **param, t_client *client, t_server *server)
 {
   (void)server;
-  printf("User '%s', name : '%s' requests identification\n", 
+  printf("User '%s', name : '%s' requests identification\n",
 	 client->ip, param[0]);
   strlower(param[0], 0);
   if (client->name)

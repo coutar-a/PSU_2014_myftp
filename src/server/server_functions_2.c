@@ -5,14 +5,14 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Wed Mar 11 12:57:47 2015 Ambroise Coutarel
-** Last update Mon Mar 16 15:48:28 2015 Ambroise Coutarel
+** Last update Tue Mar 17 12:46:56 2015 Ambroise Coutarel
 */
 
 #include "../../include/jefftp.h"
 
 int		retr(char **param, t_client *client, t_server *server)
 {
-  if (client->is_logged)
+  if (client->is_logged && param[1])
     {
       printf("user asked for %s in %s\n", param[1], server->sys_cwd);
       serv_snd_file(param[1], client, server);
@@ -24,8 +24,13 @@ int		retr(char **param, t_client *client, t_server *server)
 
 int		stor(char **param, t_client *client, t_server *server)
 {
-  if (client->is_logged)
+  /* char		*msg; */
+
+  if (client->is_logged && param[1])
     {
+      /* while ((msg = read_from_socket(client->fd)) == NULL) */
+      /* 	usleep(300000); */
+      /* printf("msg : %s\n", msg); */
       printf("user asked to store %s in %s\n", param[1], server->sys_cwd);
       serv_rcv_file(param[1], client, server);
     }

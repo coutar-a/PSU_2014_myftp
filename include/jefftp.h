@@ -5,7 +5,7 @@
 ** Login   <ganesha@epitech.net>
 **
 ** Started on  Mon Mar  9 12:21:11 2015 Ambroise Coutarel
-** Last update Mon Mar 16 12:59:26 2015 Ambroise Coutarel
+** Last update Tue Mar 17 10:21:31 2015 Ambroise Coutarel
 */
 
 #ifndef JEFFTP_H_
@@ -108,7 +108,7 @@ typedef struct		s_user
 
 void	init_commands(t_command commands[16]);
 void	init_server(t_server *server);
-void	subinit(t_command *command, char *name, 
+void	subinit(t_command *command, char *name,
 		int (*func)(char **, t_client *, t_server *));
 int	user(char **param, t_client *client, t_server *server);
 int	pass(char **param, t_client *client, t_server *server);
@@ -138,6 +138,8 @@ int	delete_file(char *file, t_client *client);
 int	cd_and_more(char **param, t_client *client, t_server *server);
 int	serv_rcv_file(char *file, t_client *client, t_server *server);
 int	serv_snd_file(char *file, t_client *client, t_server *server);
+int	srv_file(char *file, int socket);
+int	clt_snd_file(char *file, int socket);
 
 /*
 ** function prototypes for client
